@@ -94,4 +94,15 @@ normalize_vector <- function(x)
   return(x)
 }
 
+apply_svd <- function(TDM, k)
+{
+  svd <- svd(TDM, nu=k, nv=k)
+  TDM <- svd$u %*% diag(svd$d[1:k]) %*% t(svd$v)
+  N <- length(colnames(TDM))
+  NW <- slam::row_sums(TDM, na.rm=TRUE)
+  # Inverse document frequency
+  IDF <<- log(N/NW) 
+  
+}
+
 # writeLines(as.character(Reuters21578[[1]])) Print 1st article
